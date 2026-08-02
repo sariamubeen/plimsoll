@@ -1,0 +1,34 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`golden file > matches the committed snapshot 1`] = `
+{
+  "amounts": {
+    "balance": "$42.44",
+    "limit": "$42.22",
+    "promo": "US$42.04",
+    "spent": "$42.00",
+  },
+  "cacheable": true,
+  "error": null,
+  "meters": [
+    {
+      "key": "session",
+      "label": "Current session",
+      "percent": 18,
+      "resets": "3:00 PM",
+    },
+    {
+      "key": "weekly",
+      "label": "All models",
+      "percent": 12,
+      "resets": "Mon 10:59 AM",
+    },
+    {
+      "key": "credits",
+      "label": "$42.00 spent",
+      "percent": 79,
+      "resets": "Aug 1",
+    },
+  ],
+}
+`;

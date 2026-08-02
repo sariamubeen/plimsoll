@@ -20,8 +20,15 @@ export interface PiiRule {
   readonly description: string;
   /** Global regex locating candidate PII. */
   readonly pattern: RegExp;
-  /** Produces the structure-preserving synthetic replacement. */
-  readonly replace: (match: string) => string;
+  /**
+   * Produces the structure-preserving synthetic replacement.
+   *
+   * `occurrence` is the zero-based index of this match within the file, so a rule
+   * can emit distinguishable values. Without it every amount in a capture collapses
+   * to the same figure and a fixture can no longer prove that a parser matched the
+   * right amount to the right label.
+   */
+  readonly replace: (match: string, occurrence: number) => string;
   /**
    * True when `match` is already this rule's own synthetic output.
    *
@@ -60,18 +67,31 @@ export const FORBIDDEN_HEADERS: readonly string[] = [
  * `isSyntheticCurrency` recognises. Shape is what the parser cares about; the real
  * figures are the user's private financial data.
  */
-export function syntheticCurrencyDigits(source: string): string {
+const SYNTHETIC_FILLERS = ['0', '2', '4'] as const;
+
+export function syntheticCurrencyDigits(source: string, occurrence = 0): string {
+  const filler = SYNTHETIC_FILLERS[occurrence % SYNTHETIC_FILLERS.length] ?? '0';
   let seen = 0;
   return source.replace(/\d/g, () => {
-    const next = seen === 0 ? '4' : seen === 1 ? '2' : '0';
+    const next = seen === 0 ? '4' : seen === 1 ? '2' : filler;
     seen += 1;
     return next;
   });
 }
 
+/**
+ * Recognises this rule's own output: a leading "42" followed by filler digits drawn
+ * from {0,2,4}.
+ *
+ * The leading 42 is what keeps this tight. Accepting "any amount made of 0/2/4"
+ * would silently pass a real `$20.00`, and the whole point of the marker is that a
+ * genuine reading cannot be mistaken for a scrubbed one.
+ */
 function isSyntheticCurrency(match: string): boolean {
   const digits = match.replace(/\D/g, '');
-  return /^4?2?0*$/.test(digits);
+  if (digits.length === 0) return true;
+  if (digits.length === 1) return /^[024]$/.test(digits);
+  return /^42[024]*$/.test(digits);
 }
 
 /**
@@ -141,7 +161,7 @@ export const PII_RULES: readonly PiiRule[] = [
     description: "Currency amount — the user's real spend, balance and credit",
     // Matches $61.15, US$38.84, £12, €1.234,00 and bare 1,234.56 USD.
     pattern: /(?:US)?[$£€¥]\s?\d[\d,. ]*\d|\b\d[\d,]*\.\d{2}\s?(?:USD|EUR|GBP)\b/g,
-    replace: (m) => syntheticCurrencyDigits(m),
+    replace: (m, occurrence) => syntheticCurrencyDigits(m, occurrence),
     isSynthetic: isSyntheticCurrency,
   },
 ];
@@ -175,7 +195,11 @@ export function scrub(content: string): string {
   let out = content;
   for (const rule of PII_RULES) {
     const re = new RegExp(rule.pattern.source, rule.pattern.flags);
-    out = out.replace(re, (match) => (rule.isSynthetic(match) ? match : rule.replace(match)));
+    let occurrence = 0;
+    out = out.replace(re, (match) => {
+      if (rule.isSynthetic(match)) return match;
+      return rule.replace(match, occurrence++);
+    });
   }
   return out;
 }
