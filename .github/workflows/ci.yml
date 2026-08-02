@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # gitleaks scans history, not just the working tree. A shallow clone would
+          # let a secret committed earlier pass unnoticed.
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Format check
+        run: pnpm run format:check
+
+      - name: Unit tests
+        run: pnpm run test
+
+      # Fails if PII reaches any committed file, if fixtures/raw/ is tracked, or if a
+      # raw capture appears anywhere in history. See tests/no-pii.test.ts.
+      - name: Privacy checks
+        run: pnpm run check:privacy
+
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      # The official gitleaks binary, which is not distributed on npm. The npm package
+      # named "gitleaks" is an unrelated third-party package -- see
+      # discovery/research.md §5.2.
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

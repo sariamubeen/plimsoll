@@ -1,0 +1,48 @@
+{
+  "name": "plimsoll",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Read-only usage monitoring for AI chat providers. Reports usage; never modifies, bypasses, or extends any provider's limits.",
+  "license": "MIT",
+  "homepage": "https://plimsoll.anubris.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sariamubeen/plimsoll.git"
+  },
+  "type": "module",
+  "packageManager": "pnpm@10.30.3",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "sanitize": "node scripts/sanitize-fixture.ts",
+    "check:pii": "vitest run tests/no-pii.test.ts tests/sanitize-fixture.test.ts",
+    "check:secrets": "secretlint --secretlintignore .gitignore \"**/*\"",
+    "check:privacy": "pnpm run check:pii && pnpm run check:secrets",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@secretlint/secretlint-rule-preset-recommend": "13.0.4",
+    "@types/node": "26.1.2",
+    "eslint": "10.8.0",
+    "husky": "9.1.7",
+    "lint-staged": "17.3.0",
+    "prettier": "3.9.6",
+    "secretlint": "13.0.4",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.65.0",
+    "vitest": "4.1.10"
+  },
+  "lint-staged": {
+    "*": "secretlint --secretlintignore .gitignore",
+    "*.{ts,tsx,js,mjs}": "eslint --fix",
+    "*.{ts,tsx,js,mjs,json,md,yml,yaml}": "prettier --write"
+  }
+}

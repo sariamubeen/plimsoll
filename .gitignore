@@ -1,0 +1,51 @@
+# ---------------------------------------------------------------------------
+# PRIVACY-CRITICAL. See PROMPT §2.4 / docs/privacy-model.md.
+#
+# fixtures/raw/ holds REAL captures from live signed-in accounts: actual spend,
+# balance, org UUIDs, session tokens, conversation titles. This repo is public.
+# Nothing under raw/ may ever be committed. Committing it and deleting it in a
+# later commit does NOT remove it -- the data stays in history forever.
+# ---------------------------------------------------------------------------
+fixtures/raw/
+screenshots/raw/
+discovery/raw/
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.local
+*.pem
+*.key
+.secrets/
+
+# Agent / editor / OS local state
+.claude/
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build + deps
+node_modules/
+dist/
+.output/
+.wxt/
+build/
+coverage/
+*.tsbuildinfo
+.turbo/
+stats.html
+
+# Test artefacts
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
