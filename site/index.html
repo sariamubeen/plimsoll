@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plimsoll — read-only usage monitoring for AI chat</title>
+    <meta
+      name="description"
+      content="See how much of your AI chat allowance you have used, inline on the page. Read-only, no account, no tracking."
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Plimsoll</h1>
+      <p class="tagline">
+        Named for the load line on a ship&rsquo;s hull &mdash; the mark showing how heavily it can
+        safely be loaded.
+      </p>
+    </header>
+
+    <main>
+      <section>
+        <p class="lead">
+          Plimsoll shows how much of your AI chat allowance you have used, without leaving the page:
+          context usage, session and weekly limits, and credit spend.
+        </p>
+        <p class="guarantee">
+          Plimsoll is read-only. It reports usage; it never modifies, bypasses, or extends any
+          provider&rsquo;s limits.
+        </p>
+      </section>
+
+      <section>
+        <h2>What it does</h2>
+        <ul>
+          <li>Context usage for the conversation you are in, shown as an estimate.</li>
+          <li>Session, weekly and credit usage on Claude, read from Anthropic&rsquo;s own page.</li>
+          <li>
+            A clear &ldquo;not available on this site&rdquo; wherever a provider publishes no
+            figure.
+          </li>
+          <li>
+            Every reading labelled with where it came from, dimming when it goes stale, so a cached
+            number never passes for a live one.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>What it never does</h2>
+        <ul>
+          <li>Show a made-up number. No source means the bar reads <code>n/a</code>, never 0%.</li>
+          <li>Help anyone continue past a limit. There is no auto-resume and no bypass.</li>
+          <li>Collect anything. No server, no analytics, no third-party code.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Honesty about coverage</h2>
+        <p>
+          Anthropic publishes a usage page, so Claude&rsquo;s session, weekly and credit meters are
+          real readings. OpenAI and Google publish no equivalent, so on those sites Plimsoll shows a
+          context estimate and says plainly that the rest is unavailable. It would be easy to render
+          an empty bar instead. An empty bar reads as &ldquo;0% used&rdquo;, which is a lie that
+          looks like data.
+        </p>
+      </section>
+
+      <section>
+        <h2>Install</h2>
+        <p>
+          Plimsoll is in development and not yet published. Follow progress on
+          <a href="https://github.com/sariamubeen/plimsoll">GitHub</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2>Privacy</h2>
+        <p>
+          Plimsoll collects nothing and has no server. Read the full
+          <a href="./privacy.html">privacy policy</a>.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="./privacy.html">Privacy</a> &middot; <a href="./support.html">Support</a> &middot;
+        <a href="https://github.com/sariamubeen/plimsoll">Source (MIT)</a>
+      </p>
+      <p class="small">
+        Plimsoll is an independent project and is not affiliated with, endorsed by, or sponsored by
+        Anthropic, OpenAI, or Google.
+      </p>
+    </footer>
+  </body>
+</html>

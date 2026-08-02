@@ -24,6 +24,8 @@ jobs:
           node-version: 24
           cache: pnpm
 
+      # postinstall runs `wxt prepare`, which generates .wxt/tsconfig.json. Typecheck
+      # and lint both depend on it for the browser API types to resolve.
       - run: pnpm install --frozen-lockfile
 
       - name: Typecheck
@@ -42,6 +44,37 @@ jobs:
       # raw capture appears anywhere in history. See tests/no-pii.test.ts.
       - name: Privacy checks
         run: pnpm run check:privacy
+
+  targets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # The full build is checked FIRST and must contain portability markers. If the
+      # markers ever go stale, the monitor check below would start passing vacuously,
+      # so proving they still match is what keeps that check meaningful.
+      - name: Build full target
+        run: pnpm run build:full
+      - name: Full build contains portability
+        run: pnpm run check:target full
+
+      - name: Build monitor target
+        run: pnpm run build:monitor
+      - name: Monitor build contains NO portability, and no forbidden permissions
+        run: pnpm run check:target monitor
+
+      # E2E runs against the monitor build just verified above, and against sanitized
+      # fixture pages — never a live account.
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+      - name: E2E
+        run: xvfb-run -a pnpm run test:e2e
 
   secrets:
     runs-on: ubuntu-latest

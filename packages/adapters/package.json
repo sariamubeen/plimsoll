@@ -6,6 +6,9 @@
   "exports": {
     "./base": "./base.ts",
     "./etiquette": "./etiquette.ts",
+    "./surface": "./surface.ts",
+    "./site-adapter": "./site-adapter.ts",
+    "./portability": "./portability.ts",
     "./claude": "./claude/index.ts",
     "./claude/usage-page": "./claude/usage-page.ts",
     "./chatgpt": "./chatgpt/index.ts",

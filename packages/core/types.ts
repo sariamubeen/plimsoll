@@ -44,8 +44,17 @@ export interface UsageReading {
  */
 export type SiteCapabilities = Record<ReadingKey, boolean>;
 
+/**
+ * `unknown` is a first-class role, not a fallback bug.
+ *
+ * Distinguishing "you" from "the assistant" reliably needs a site-specific attribute,
+ * and no structural capture exists to confirm one. Rather than alternating roles and
+ * hoping — which produces an export that is confidently mislabelled — an
+ * unattributable turn is exported as `unknown` and the UI says roles could not be
+ * determined.
+ */
 export interface ConversationMessage {
-  readonly role: 'user' | 'assistant' | 'system';
+  readonly role: 'user' | 'assistant' | 'system' | 'unknown';
   readonly text: string;
 }
 

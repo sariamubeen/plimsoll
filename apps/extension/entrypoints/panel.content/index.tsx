@@ -73,6 +73,16 @@ export default defineContentScript({
           };
           rerender = render;
           render();
+
+          // `full` build only. __PLIMSOLL_FULL__ is a build-time constant, so in the
+          // monitor build this branch folds away and the exporter chunk is never
+          // emitted — the portability code is absent, not merely disabled.
+          if (__PLIMSOLL_FULL__) {
+            void import('./exporter.ts').then(({ mountExportControls }) => {
+              mountExportControls({ adapter: adapter!, storage, container: host, doc: document });
+            });
+          }
+
           return root;
         },
         onRemove: (mounted) => {

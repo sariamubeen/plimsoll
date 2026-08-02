@@ -15,12 +15,31 @@ Works with claude.ai, chatgpt.com and gemini.google.com.
 
 ## Status
 
-**Pre-release — Phase 0 (discovery).** Not yet installable.
+**Pre-release.** Both targets build and the extension loads unpacked; it is not yet
+published to any store.
 
-Plimsoll is being built capture-first: no selector, parser, or API endpoint is written
-until real captured data for it exists. Where a signal cannot be read reliably, it is
-shown as _"not available on this site"_ rather than as a plausible-looking number.
-See [`discovery/research.md`](discovery/research.md) for what is confirmed so far.
+Plimsoll is built capture-first: no selector, parser, or API endpoint is written until
+real captured data for it exists. Where a signal cannot be read reliably it reads
+_"not available on this site"_ rather than showing a plausible-looking number.
+
+### What actually works today
+
+| Signal                     | Claude                 | ChatGPT               | Gemini                |
+| -------------------------- | ---------------------- | --------------------- | --------------------- |
+| Context estimate           | ✅ `est.`              | ✅ `est.`             | ✅ `est.`             |
+| Session / weekly / credits | ✅ from the usage page | ⛔ not available      | ⛔ not available      |
+| Limit warning              | detected when present  | detected when present | detected when present |
+| Authenticated API read     | ⛔ not implemented     | ⛔ not implemented    | ⛔ not implemented    |
+| Conversation export        | ✅ `full` build        | ✅ `full` build       | ✅ `full` build       |
+
+⛔ is a deliberate, visible state, not a bug. OpenAI and Google publish no usage figure
+Plimsoll could read, and no API endpoint has been verified against a live capture — so
+none is written. See [`docs/endpoints.md`](docs/endpoints.md) and
+[`discovery/research.md`](discovery/research.md).
+
+Running [`docs/capture-protocol.md`](docs/capture-protocol.md) is what promotes any of
+those. Because capabilities are typed metadata, promotion is a config change plus a
+parser, not a redesign.
 
 ## Principles
 
@@ -47,7 +66,7 @@ conversation at a time, never automatic.
 | Build     | Contains                         | Permissions                        |
 | --------- | -------------------------------- | ---------------------------------- |
 | `monitor` | Usage bars only                  | `storage` + three host permissions |
-| `full`    | Monitor plus conversation export | adds `scripting` if required       |
+| `full`    | Monitor plus conversation export | identical — no extra permission    |
 
 Portability is tree-shaken out of `monitor` entirely, and CI fails if any portability
 symbol reaches that bundle. Dead code in the bundle still counts as shipped code.

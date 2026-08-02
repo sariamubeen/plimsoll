@@ -42,7 +42,8 @@
     "tests/**/*.ts",
     "packages/**/*.ts",
     "packages/**/*.tsx",
-    "*.config.ts"
+    "*.config.ts",
+    "e2e/**/*.ts"
   ],
   // apps/extension is a SEPARATE project (apps/extension/tsconfig.json), because it
   // needs WXT's generated .wxt/tsconfig.json for `wxt/browser` and the ambient

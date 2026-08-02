@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Usage — fixture</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: #fff;
+        color: #1a1a1a;
+      }
+      nav {
+        float: left;
+        width: 180px;
+        padding: 16px;
+        color: #666;
+        font-size: 14px;
+      }
+      main {
+        margin-left: 200px;
+        padding: 24px;
+        max-width: 520px;
+      }
+      .meter {
+        margin: 18px 0;
+      }
+      .label {
+        font-weight: 600;
+      }
+      .reset,
+      .pct {
+        color: #444;
+      }
+      .promo {
+        color: #8a5300;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      Fixture page for E2E and screenshots. Structure mirrors the real usage page,
+      INCLUDING the traps: a "Resets" line between label and value, a weekly label with
+      no keyword in it, a credits label that starts with a currency symbol, amounts
+      that precede their descriptor, and a marketing "30% off" that must not parse as a
+      meter. All amounts are synthetic.
+    -->
+    <nav>
+      <div>Claude</div>
+      <div>New chat</div>
+      <div>Chats</div>
+      <div>Projects</div>
+      <div>Settings</div>
+      <div>Profile</div>
+      <div>Appearance</div>
+      <div>Usage</div>
+      <div>Billing</div>
+    </nav>
+    <main>
+      <p class="promo">Up to 30% off annual plans</p>
+
+      <div class="meter">
+        <div class="label">Current session</div>
+        <div class="reset">Resets 3:00 PM</div>
+        <div class="pct">18% used</div>
+      </div>
+
+      <div class="meter">
+        <div class="label">All models</div>
+        <div class="reset">Resets Mon 10:59 AM</div>
+        <div class="pct">12% used</div>
+      </div>
+
+      <div class="meter">
+        <div class="label">$42.00 spent</div>
+        <div class="reset">Resets Aug 1</div>
+        <div class="pct">79% used</div>
+      </div>
+
+      <div class="meter">
+        <div>$42.22</div>
+        <div>Monthly spend limit</div>
+      </div>
+      <div class="meter">
+        <div>$42.44</div>
+        <div>Current balance · Auto-reload Off</div>
+      </div>
+      <div class="meter">
+        <div>US$42.04</div>
+        <div>Promotional credit</div>
+      </div>
+
+      <p>Learn more about usage limits</p>
+    </main>
+  </body>
+</html>
