@@ -1,0 +1,30 @@
+{
+  "name": "@plimsoll/extension",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build",
+    "build:monitor": "cross-env PLIMSOLL_TARGET=monitor wxt build",
+    "build:full": "cross-env PLIMSOLL_TARGET=full wxt build",
+    "zip": "wxt zip",
+    "postinstall": "wxt prepare"
+  },
+  "dependencies": {
+    "@plimsoll/adapters": "workspace:*",
+    "@plimsoll/core": "workspace:*",
+    "@plimsoll/ui": "workspace:*",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.2.5",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "@wxt-dev/browser": "0.2.5",
+    "@wxt-dev/module-react": "1.2.2",
+    "cross-env": "10.1.0",
+    "wxt": "0.21.3"
+  }
+}

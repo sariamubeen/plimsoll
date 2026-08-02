@@ -10,8 +10,11 @@
     // this file. Keeping it would be a migration blocker for no benefit.
     "paths": {
       "@plimsoll/core/*": ["./packages/core/*.ts"],
-      "@plimsoll/adapters/*": ["./packages/adapters/*.ts"]
+      "@plimsoll/adapters/*": ["./packages/adapters/*.ts"],
+      "@plimsoll/ui/*": ["./packages/ui/*.tsx", "./packages/ui/*.ts"]
     },
+
+    "jsx": "react-jsx",
 
     "strict": true,
     "noUncheckedIndexedAccess": true,
@@ -34,6 +37,17 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["scripts/**/*.ts", "tests/**/*.ts", "packages/**/*.ts", "*.config.ts"],
-  "exclude": ["node_modules", "dist", ".output", ".wxt"]
+  "include": [
+    "scripts/**/*.ts",
+    "tests/**/*.ts",
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "*.config.ts"
+  ],
+  // apps/extension is a SEPARATE project (apps/extension/tsconfig.json), because it
+  // needs WXT's generated .wxt/tsconfig.json for `wxt/browser` and the ambient
+  // globals to resolve. Including it here too would make ESLint's project service
+  // pick this config for those files, where `browser` degrades to an error type and
+  // every call on it becomes an unchecked `any`.
+  "exclude": ["node_modules", "dist", ".output", ".wxt", "**/.output/**", "**/.wxt/**"]
 }

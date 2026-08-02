@@ -53,7 +53,17 @@ const POLICY_RULES = {
 
 export default tseslint.config(
   {
-    ignores: ['fixtures/**', 'node_modules/**', '.output/**', '.wxt/**', 'dist/**', 'coverage/**'],
+    // Globs must be `**/`-prefixed: build output lives at apps/extension/.output,
+    // not at the repo root, and a root-relative pattern silently misses it — which
+    // means linting a 200 kB generated bundle and drowning the real errors.
+    ignores: [
+      'fixtures/**',
+      '**/node_modules/**',
+      '**/.output/**',
+      '**/.wxt/**',
+      '**/dist/**',
+      '**/coverage/**',
+    ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,

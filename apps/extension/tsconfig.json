@@ -1,0 +1,20 @@
+{
+  // WXT generates .wxt/tsconfig.json (with its own paths and ambient types) during
+  // `wxt prepare`, which runs on postinstall. Extending it is what lets both tsc and
+  // ESLint's project service resolve `wxt/browser` and the generated globals.
+  // Order matters: the root config first, WXT's second, so WXT's `moduleResolution:
+  // Bundler` wins. Under the root's `nodenext`, `wxt/browser`'s dependency on
+  // @wxt-dev/browser does not resolve and `browser` silently degrades to an error
+  // type — which tsc tolerates but every type-aware lint rule then flags.
+  "extends": ["../../tsconfig.json", "./.wxt/tsconfig.json"],
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "paths": {
+      "@plimsoll/core/*": ["../../packages/core/*.ts"],
+      "@plimsoll/adapters/*": ["../../packages/adapters/*.ts"],
+      "@plimsoll/ui/*": ["../../packages/ui/*.tsx", "../../packages/ui/*.ts"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", ".wxt/**/*.d.ts"],
+  "exclude": [".output", "node_modules"]
+}
