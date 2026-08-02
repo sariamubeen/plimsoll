@@ -1,0 +1,13 @@
+{
+  "name": "@plimsoll/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./types": "./types.ts",
+    "./tokens": "./tokens.ts",
+    "./forecast": "./forecast.ts",
+    "./history": "./history.ts",
+    "./storage": "./storage.ts"
+  }
+}

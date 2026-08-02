@@ -6,6 +6,13 @@
     "moduleResolution": "nodenext",
     "types": ["node"],
 
+    // No baseUrl: it is deprecated in TS 7 and paths already resolve relative to
+    // this file. Keeping it would be a migration blocker for no benefit.
+    "paths": {
+      "@plimsoll/core/*": ["./packages/core/*.ts"],
+      "@plimsoll/adapters/*": ["./packages/adapters/*.ts"]
+    },
+
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
@@ -27,6 +34,6 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["scripts/**/*.ts", "tests/**/*.ts", "packages/**/*.ts"],
+  "include": ["scripts/**/*.ts", "tests/**/*.ts", "packages/**/*.ts", "*.config.ts"],
   "exclude": ["node_modules", "dist", ".output", ".wxt"]
 }

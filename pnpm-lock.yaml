@@ -42,6 +42,14 @@ importers:
         specifier: 4.1.10
         version: 4.1.10(@types/node@26.1.2)(vite@8.2.0(@types/node@26.1.2)(yaml@2.9.0))
 
+  packages/adapters:
+    dependencies:
+      '@plimsoll/core':
+        specifier: workspace:*
+        version: link:../core
+
+  packages/core: {}
+
 packages:
 
   '@azu/format-text@1.0.2':
