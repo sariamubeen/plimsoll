@@ -52,7 +52,7 @@ test('no bar ever displays a fabricated 0%', async () => {
       if (valueNow === null) {
         // Unknown: must say so in words, and must render the hatched track.
         expect(valueText).toBe('not available');
-        await expect(meter).toHaveClass(/track--unknown/);
+        await expect(meter).toHaveClass(/gauge--unknown/);
       } else {
         // Known: a real reading, never a placeholder zero standing in for unknown.
         expect(Number(valueNow)).toBeGreaterThan(0);

@@ -7,7 +7,8 @@
     "./Bar": "./Bar.tsx",
     "./Panel": "./Panel.tsx",
     "./format": "./format.ts",
-    "./theme": "./theme.ts"
+    "./theme": "./theme.ts",
+    "./Mark": "./Mark.tsx"
   },
   "dependencies": {
     "@plimsoll/core": "workspace:*"

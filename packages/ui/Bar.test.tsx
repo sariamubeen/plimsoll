@@ -37,8 +37,8 @@ describe('an unknown reading', () => {
   it('renders a hatched track rather than an empty bar', () => {
     // An empty track is visually identical to "0% used", which is the exact lie this
     // project exists to avoid.
-    expect(html).toContain('track--unknown');
-    expect(html).not.toContain('class="fill');
+    expect(html).toContain('gauge--unknown');
+    expect(html).not.toContain('class="gauge__fill');
   });
 
   it('reports no aria-valuenow to assistive tech', () => {
@@ -56,7 +56,7 @@ describe('a known reading', () => {
   it('pairs the colour band with a text label', () => {
     // Never colour alone: the band name appears as text and in the accessible name.
     const html = render(<Bar reading={reading({ percent: 95 })} warnAt={75} criticalAt={90} />);
-    expect(html).toContain('fill--critical');
+    expect(html).toContain('gauge__fill--critical');
     expect(html).toContain('Very high');
     expect(html).toContain('aria-valuenow="95"');
   });
@@ -94,6 +94,7 @@ describe('panel freshness', () => {
     busy: false,
     onToggleCollapsed: () => undefined,
     onRefresh: () => undefined,
+    onMove: () => undefined,
   };
 
   it('states when it last updated', () => {

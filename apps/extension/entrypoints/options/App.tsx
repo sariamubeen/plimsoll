@@ -141,9 +141,14 @@ function SettingsTab({
             <option value="top-right">Top right</option>
             <option value="bottom-left">Bottom left</option>
             <option value="bottom-right">Bottom right</option>
-            <option value="composer">Docked to composer</option>
+            <option value="left">Left edge</option>
+            <option value="right">Right edge</option>
+            <option value="composer">Above the message box</option>
           </select>
         </label>
+        <p className="note">
+          You can also move the panel without coming here — use the ⤢ button in its header.
+        </p>
         <label>
           <span className="grow">Theme</span>
           <select

@@ -49,3 +49,8 @@ blob-report/
 *.log
 npm-debug.log*
 pnpm-debug.log*
+
+# Local preview / MCP browser artefacts
+.playwright-mcp/
+preview-tmp.html
+*-tmp.mjs

@@ -22,6 +22,7 @@ export default defineConfig({
     // Minimum permissions. No "tabs" — chrome.tabs.sendMessage and the tab id are
     // both available without it, and it is a classic rejection trigger. No
     // <all_urls>. Nothing requested "for later".
+    icons: { 16: 'icon/16.png', 32: 'icon/32.png', 48: 'icon/48.png', 128: 'icon/128.png' },
     permissions: ['storage'],
     host_permissions: [...HOST_PERMISSIONS],
   },

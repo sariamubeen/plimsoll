@@ -1,10 +1,9 @@
 /**
- * One usage row.
+ * One gauge row.
  *
- * The single rule this component exists to enforce: a reading with no value renders
- * as a hatched track and the literal text "n/a", never as an empty bar. An empty bar
- * is indistinguishable from 0% used, which is the lie that this whole project is
- * organised around not telling.
+ * The rule this component exists to enforce: a reading with no value renders as a
+ * hatched track and the literal text "n/a", never as an empty bar. An empty bar is
+ * indistinguishable from 0% used.
  */
 
 import {
@@ -29,18 +28,23 @@ export function Bar({ reading, warnAt, criticalAt }: BarProps) {
   const band = bandFor(reading.percent, warnAt, criticalAt);
   const stale = reading.confidence === 'stale';
 
-  // The accessible name carries everything the sighted user gets from colour,
-  // position and the chip — state is never conveyed by colour alone.
+  // The accessible name carries everything a sighted user gets from colour, position
+  // and the chip — state is never conveyed by colour alone.
   const label = [
     READING_TITLE[reading.key],
     known ? `${formatPercent(reading.percent)} used` : 'not available',
     known ? BAND_LABEL[band] : null,
     PROVENANCE_DESCRIPTION[reading.provenance],
     stale ? 'stale' : null,
-    reading.secondary ?? null,
   ]
     .filter((part) => part !== null)
     .join(', ');
+
+  // Detail is one line and clips rather than wrapping. A HUD that reflows as numbers
+  // change is worse than one that stays put; the full text is in the title.
+  const detail = [reading.primary, reading.secondary, stale ? 'stale' : null]
+    .filter((part) => part !== null && part !== undefined && part !== '')
+    .join(' · ');
 
   return (
     <li className={`row${stale ? ' row--stale' : ''}`}>
@@ -53,7 +57,7 @@ export function Bar({ reading, warnAt, criticalAt }: BarProps) {
       </div>
 
       <div
-        className={`track${known ? '' : ' track--unknown'}`}
+        className={`gauge${known ? '' : ' gauge--unknown'}`}
         role="meter"
         aria-label={label}
         {...(known
@@ -62,23 +66,21 @@ export function Bar({ reading, warnAt, criticalAt }: BarProps) {
               'aria-valuemin': 0,
               'aria-valuemax': 100,
             }
-          : // No aria-valuenow at all when unknown. Reporting 0 to a screen reader
-            // would be the accessibility equivalent of rendering an empty bar.
+          : // No aria-valuenow at all when unknown. Announcing 0 would be the
+            // accessibility equivalent of rendering an empty bar.
             { 'aria-valuetext': 'not available' })}
       >
         {known ? (
           <div
-            className={`fill fill--${band}`}
+            className={`gauge__fill gauge__fill--${band}`}
             style={{ width: `${fillWidth(reading.percent)}%` }}
           />
         ) : null}
       </div>
 
-      <div className="row__note">
+      <div className="row__note" title={detail}>
         {known ? `${BAND_LABEL[band]} · ` : ''}
-        {reading.primary}
-        {reading.secondary === undefined ? '' : ` · ${reading.secondary}`}
-        {stale ? ' · stale' : ''}
+        {detail}
       </div>
     </li>
   );

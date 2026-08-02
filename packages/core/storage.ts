@@ -23,7 +23,16 @@ export interface StorageArea {
 
 export const SCHEMA_VERSION = 1;
 
-export type PanelPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'composer';
+export type PanelPosition =
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right'
+  /** Vertically centred against the left or right edge of the viewport. */
+  | 'left'
+  | 'right'
+  /** Sits just above the message box, tracked with observers rather than polling. */
+  | 'composer';
 
 export interface Settings {
   readonly schemaVersion: number;

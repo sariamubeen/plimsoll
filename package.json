@@ -31,7 +31,8 @@
     "check:target": "node scripts/check-target.ts",
     "verify": "pnpm run typecheck && pnpm run lint && pnpm run format:check && pnpm run test && pnpm run check:privacy",
     "test:e2e": "playwright test",
-    "screenshots": "node scripts/screenshots.ts"
+    "screenshots": "node scripts/screenshots.ts",
+    "icons": "node scripts/icons.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
